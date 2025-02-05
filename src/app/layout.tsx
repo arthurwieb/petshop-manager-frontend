@@ -4,7 +4,6 @@ import "./globals.css";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/app-siderbar";
 import "@fontsource/poppins"; // Defaults to 400 weight
-import "@fontsource/creepster"
 
 
 const geistSans = Geist({
