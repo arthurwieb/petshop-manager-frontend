@@ -102,6 +102,11 @@
   resolved "https://registry.yarnpkg.com/@floating-ui/utils/-/utils-0.2.9.tgz#50dea3616bc8191fb8e112283b49eaff03e78429"
   integrity sha512-MDWhGtE+eHw5JW7lq4qhc5yRLS11ERl1c7Z6Xd0a58DozHES6EnNNwUWbMiG4J9Cgj053Bhk8zvlhFYKVhULwg==
 
+"@fontsource/poppins@^5.1.1":
+  version "5.1.1"
+  resolved "https://registry.yarnpkg.com/@fontsource/poppins/-/poppins-5.1.1.tgz#fe7c25534d2f46bf296c37b68535d419913bc2c4"
+  integrity sha512-PQVKHGQOK+UpVNPzTFF9Z9ez3CIDkunfvRXGH95hiDoqWJc1shW4JFqe4tEoqnq7RtZaYrw9aWQq58L4eny5xg==
+
 "@humanfs/core@^0.19.1":
   version "0.19.1"
   resolved "https://registry.yarnpkg.com/@humanfs/core/-/core-0.19.1.tgz#17c55ca7d426733fe3c561906b8173c336b40a77"
@@ -500,6 +505,13 @@
   integrity sha512-EJUrI8yYh7WOjNOqpoJaf1jlFIH2LvtgAl+YcFqNCa+4hj64ZXmPkAKOFs/ukjz3byN6bdb/AVUqHkI8/uWWMA==
   dependencies:
     "@radix-ui/react-use-layout-effect" "1.1.0"
+
+"@radix-ui/react-label@^2.1.1":
+  version "2.1.1"
+  resolved "https://registry.yarnpkg.com/@radix-ui/react-label/-/react-label-2.1.1.tgz#f30bd577b26873c638006e4f65761d4c6b80566d"
+  integrity sha512-UUw5E4e/2+4kFMH7+YxORXGWggtY6sM8WIwh5RZchhLuUg2H1hc98Py+pr8HMz6rdaYrK2t296ZEjYLOCO5uUw==
+  dependencies:
+    "@radix-ui/react-primitive" "2.0.1"
 
 "@radix-ui/react-menu@2.1.5":
   version "2.1.5"
