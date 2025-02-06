@@ -59,7 +59,9 @@ export default {
 					'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
-				}
+				},
+				// Adicionando a cor personalizada "roxo quase preto"
+				darkPurple: '#08030e',  // Tom de roxo muito escuro
 			},
 			borderRadius: {
 				lg: 'var(--radius)',
@@ -95,3 +97,4 @@ export default {
 	},
 	plugins: [require("tailwindcss-animate")],
 } satisfies Config;
+
