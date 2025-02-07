@@ -8,6 +8,9 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "react-query";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import Image from 'next/image';
+import Logo from "@/public/images/logo_test.png";
+
 
 const formSchema = z.object({
   email: z.string().email("Email inválido"),
@@ -38,58 +41,58 @@ const registerUser = async (data: FormData) => {
 
 export default function Login() {
 
-    const {
-      register,
-      handleSubmit,
-      formState: { errors, isSubmitting },
-      reset,
-    } = useForm<FormData>({
-      resolver: zodResolver(formSchema),
-    });
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+    reset,
+  } = useForm<FormData>({
+    resolver: zodResolver(formSchema),
+  });
 
-    const onSubmit: SubmitHandler<FormData> = async (data) => {
-      try {
-        await registerUser(data);
-        alert("Usuário cadastrado com sucesso!");
-        reset(); // Limpa os campos do formulário
-      } catch (error: any) {
-        alert(`Erro ao cadastrar: ${(error as Error).message}`);
-      }
-    };
+  const onSubmit: SubmitHandler<FormData> = async (data) => {
+    try {
+      await registerUser(data);
+      alert("Usuário cadastrado com sucesso!");
+      reset(); // Limpa os campos do formulário
+    } catch (error: any) {
+      alert(`Erro ao cadastrar: ${(error as Error).message}`);
+    }
+  };
 
   return (
-      <div className="flex h-screen">
-        <div className="relative items-start justify-start w-[50vw] p-10 flex flex-col">
-          <div className="absolute bg-zinc-900 inset-0"></div>
-          <h1 className="relative text-white">LOGO</h1>
-          <h1 className="relative text-white mt-auto">TESTE </h1>
-        </div>
-        <div className="flex items-center justify-center bg-darkPurple w-[50vw]">
-          <div>
-            <h1 className="text-2xl text-primary text-white pb-10 font-sans">Bem vindo!</h1>
-            <form onSubmit={handleSubmit(onSubmit)}>
-              <label className="text-white font-sans" title="email">Email:</label>
-              <Input className="w-[300px] mt-1 mb-4 bg-black text-white" type="text" id="email" placeholder="Digite seu e-mail" {...register("email")} required></Input>
-              {errors.email && <p className="text-red-500">{errors.email.message}</p>}
+    <div className="flex h-screen">
+      <div className="relative items-start justify-start w-[50vw] p-10 flex flex-col">
+        <div className="m-auto"><Image alt="logo" width={100} height={100} src={Logo}></Image></div>
 
-              <label className="text-white font-sans" title="password">Senha:</label>
-              <Input className="w-[300px] mt-1 bg-black text-white" type="text" id="password" placeholder="Digite sua senha" {...register("password")} required></Input>
-              {errors.password && <p className="text-red-500">{errors.password.message}</p>}
-              
-              <div className="flex flex-col">
-                <Button className="mb-2 mt-2 font-sans" type="submit" disabled={isSubmitting}>
-                  {isSubmitting ? "Enviando..." : "Entrar"}
-                </Button>
+        <h1 className="relative text-secondary-foreground mt-auto">TESTE </h1>
+      </div>
+      <div className="flex items-center justify-center bg-primary w-[50vw]">
+        <div>
+          <h1 className="text-2xl text-primary-foreground pb-10 ">Bem vindo!</h1>
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <label className="text-primary-foreground " title="email">Email:</label>
+            <Input className="w-[300px] mt-1 mb-4 bg-primary text-primary-foreground" type="text" id="email" placeholder="Digite seu e-mail" {...register("email")} required></Input>
+            {errors.email && <p className="text-red-500">{errors.email.message}</p>}
 
-                <Link className="w-full mt-2" href={'/register'}>
-                <Button className="w-full font-sans">
+            <label className="text-primary-foreground " title="password">Senha:</label>
+            <Input className="w-[300px] mt-1 bg-primary text-primary-foreground" type="text" id="password" placeholder="Digite sua senha" {...register("password")} required></Input>
+            {errors.password && <p className="text-red-500">{errors.password.message}</p>}
+
+            <div className="flex flex-col">
+              <Button className="mb-2 mt-2" type="submit" variant={"secondary"} disabled={isSubmitting}>
+                {isSubmitting ? "Enviando..." : "Entrar"}
+              </Button>
+
+              <Link className="w-full mt-2" href={'/register'}>
+                <Button className="w-full text-primary-foreground" variant={"ghost"}>
                   Registrar
                 </Button>
-                </Link>
-              </div>
-            </form>
-          </div>
+              </Link>
+            </div>
+          </form>
         </div>
       </div>
+    </div>
   );
 };
