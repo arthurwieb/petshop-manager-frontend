@@ -1,4 +1,5 @@
 import type { Config } from "tailwindcss";
+import plugin from "tailwindcss/plugin";	
 
 export default {
 	darkMode: ["class"],
@@ -60,8 +61,8 @@ export default {
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
 				},
-				// Adicionando a cor personalizada "roxo quase preto"
-				darkPurple: '#08030e',  // Tom de roxo muito escuro
+				// Adicionando a cor personalizada
+				darkPurple: '#08030e',  // Tom de roxo escuro
 			},
 			borderRadius: {
 				lg: 'var(--radius)',
@@ -95,6 +96,29 @@ export default {
 			}
 		}
 	},
-	plugins: [require("tailwindcss-animate")],
+	plugins: [
+		require("tailwindcss-animate"),
+		plugin(function ({ addComponents }) {
+		  addComponents({
+			".input-login": {
+			  width: "300px",
+			  marginTop: "0.25rem",
+			  marginBottom: "1rem",
+			  backgroundColor: "hsl(var(--primary))",
+			  color: "hsl(var(--primary-foreground))",
+			  borderRadius: "0.375rem",
+			  padding: "0.5rem 0.75rem",
+			  borderWidth: "1px",
+			  borderColor: "hsl(var(--border))",
+			  outline: "none",
+			  "&:focus": {
+				borderColor: "hsl(var(--primary))",
+				boxShadow: "0 0 0 2px hsl(var(--primary))",
+			  },
+			},
+			
+		  });
+		}),
+	],
 } satisfies Config;
 

@@ -2,14 +2,14 @@
 
 import Link from "next/link";
 import * as React from "react";
-import { useForm, SubmitHandler } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation } from "react-query";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import Image from 'next/image';
 import Logo from "@/public/images/logo_test.png";
+import { useMutation } from "@tanstack/react-query";
 
 
 const formSchema = z.object({
@@ -50,15 +50,16 @@ export default function Login() {
     resolver: zodResolver(formSchema),
   });
 
-  const onSubmit: SubmitHandler<FormData> = async (data) => {
-    try {
-      await registerUser(data);
-      alert("Usuário cadastrado com sucesso!");
-      reset(); // Limpa os campos do formulário
-    } catch (error: any) {
-      alert(`Erro ao cadastrar: ${(error as Error).message}`);
-    }
-  };
+  const mutation = useMutation({
+    mutationFn: registerUser,
+    onSuccess: () => {
+      alert("Usuário cadastrado com sucesso");
+      reset();
+    },
+    onError: (error) => {
+      alert(`Erro ao cadastrar: ${(error as Error).message}`)
+    },
+  });
 
   return (
     <div className="flex h-screen">
@@ -70,9 +71,9 @@ export default function Login() {
       <div className="flex items-center justify-center bg-primary w-[50vw]">
         <div>
           <h1 className="text-2xl text-primary-foreground pb-10 ">Bem vindo!</h1>
-          <form onSubmit={handleSubmit(onSubmit)}>
+          <form onSubmit={handleSubmit((data) => mutation.mutate(data))}>
             <label className="text-primary-foreground " title="email">Email:</label>
-            <Input className="w-[300px] mt-1 mb-4 bg-primary text-primary-foreground" type="text" id="email" placeholder="Digite seu e-mail" {...register("email")} required></Input>
+            <Input className="w-[300px] mt-1 bg-primary text-primary-foreground" type="text" id="email" placeholder="Digite seu e-mail" {...register("email")} required></Input>
             {errors.email && <p className="text-red-500">{errors.email.message}</p>}
 
             <label className="text-primary-foreground " title="password">Senha:</label>
@@ -80,8 +81,8 @@ export default function Login() {
             {errors.password && <p className="text-red-500">{errors.password.message}</p>}
 
             <div className="flex flex-col">
-              <Button className="mb-2 mt-2" type="submit" variant={"secondary"} disabled={isSubmitting}>
-                {isSubmitting ? "Enviando..." : "Entrar"}
+              <Button className="mb-2 mt-2" type="submit" variant={"secondary"} disabled={mutation.isPending}>
+                {mutation.isPending ? "Enviando..." : "Entrar"}
               </Button>
 
               <Link className="w-full mt-2" href={'/register'}>
