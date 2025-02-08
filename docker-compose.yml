@@ -1,0 +1,14 @@
+services:
+  app:
+    build: .
+    restart: always
+    ports:
+      - "3000:3000"
+    volumes:
+      - .:/app:delegated
+      - /app/node_modules      
+      - /app/.next
+    environment:
+      - NODE_ENV=production
+      - WATCHPACK_POLLING=true
+    command: ["yarn", "dev"]

@@ -4,13 +4,14 @@ WORKDIR /app
 
 COPY package.json yarn.lock ./
 
-RUN yarn
+# Install dependencies
+RUN yarn install --frozen-lockfile
 
-## COPIA TUDO PRO DOCKER
+## COPIA TUDO PRO DOCKER DEPOIS DE INSTALAR 
 COPY . .
 
 RUN yarn build
 
 EXPOSE 3000
 
-CMD ["yarn", "start"]
+CMD ["yarn", "dev"]
