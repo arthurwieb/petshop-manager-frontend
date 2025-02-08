@@ -47,8 +47,11 @@ export default function Login() {
     formState: { errors, isSubmitting },
     reset,
   } = useForm<FormData>({
+
     resolver: zodResolver(formSchema),
   });
+  // só pra não bugar o container por causa do eslint
+  console.log(isSubmitting);
 
   const mutation = useMutation({
     mutationFn: registerUser,
