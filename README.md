@@ -3,6 +3,10 @@
 First, run the development server:
 
 ```bash
+##se der pau no yarn, use
+corepack enable
+yarn set version stable
+yarn install
 #buildar o container
 docker-compose build
 
