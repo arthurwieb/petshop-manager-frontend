@@ -8,18 +8,19 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import Image from 'next/image';
-import Logo from "@/public/images/logo_test.png";
+//import Logo from "@/public/images/logo_test.png";
 import { useMutation } from "@tanstack/react-query";
 
 
 const formSchema = z.object({
   email: z.string().email("Email inválido"),
   password: z.string().min(8, "Senha deve conter ao menos 8 caracteres"),
-})
+});
 
 type FormData = z.infer<typeof formSchema>;
 
-const loginCompany = async (data: FormData) => {
+const login = async (data: FormData) => {
+  console.log(data)
   const response = await fetch("", {
     method: "POST",
     headers: {
@@ -32,7 +33,8 @@ const loginCompany = async (data: FormData) => {
     throw new Error("Erro ao fazer login");
   }
 
-  return response.json();
+  return JSON.stringify(data)
+  //return response.json();
 };
 
 export default function Login() {
@@ -50,20 +52,22 @@ export default function Login() {
   console.log(isSubmitting);
 
   const mutation = useMutation({
-    mutationFn: loginCompany,
-    onSuccess: (data) => {
-      alert("Login realziado com sucesso");
-      localStorage.setItem("token", data.token);
+    mutationFn: login,
+    onSuccess: () => {
+      console.log("Usuário cadastrado com sucesso");
+      window.location.href = "/register"
+      reset();
     },
     onError: (error) => {
-      alert(`Erro ao fazer login: ${(error as Error).message}`)
+      console.log('nao logou');
+      alert(`Erro ao cadastrar: ${(error as Error).message}`)
     },
   });
 
   return (
     <div className="flex h-screen">
       <div className="relative items-start justify-start w-[50vw] p-10 flex flex-col">
-        <div className="m-auto"><Image alt="logo" width={100} height={100} src={Logo}></Image></div>
+        <div className="m-auto"></div>
 
         <h1 className="relative text-secondary-foreground mt-auto">TESTE </h1>
       </div>

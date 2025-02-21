@@ -1,11 +1,11 @@
-FROM node:latest
+FROM node:22-alpine
 
 WORKDIR /app
 
 COPY package.json yarn.lock ./
 
 # Install dependencies
-RUN yarn install --frozen-lockfile
+RUN yarn install 
 
 ## COPIA TUDO PRO DOCKER DEPOIS DE INSTALAR 
 COPY . .
