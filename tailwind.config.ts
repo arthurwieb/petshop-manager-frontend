@@ -97,7 +97,6 @@ export default {
 		}
 	},
 	plugins: [
-		require("tailwindcss-animate"),
 		plugin(function ({ addComponents }) {
 		  addComponents({
 			".input-login": {

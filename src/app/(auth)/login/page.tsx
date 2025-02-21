@@ -15,15 +15,11 @@ import { useMutation } from "@tanstack/react-query";
 const formSchema = z.object({
   email: z.string().email("Email inválido"),
   password: z.string().min(8, "Senha deve conter ao menos 8 caracteres"),
-  confirmPassword: z.string(),
-}).refine((data) => data.password === data.confirmPassword, {
-  message: "As senhas não coincidem",
-  path: ["confirmPassword"],
-});
+})
 
 type FormData = z.infer<typeof formSchema>;
 
-const registerUser = async (data: FormData) => {
+const loginCompany = async (data: FormData) => {
   const response = await fetch("", {
     method: "POST",
     headers: {
@@ -33,7 +29,7 @@ const registerUser = async (data: FormData) => {
   });
 
   if (!response.ok) {
-    throw new Error("Erro ao cadastrar o usuário");
+    throw new Error("Erro ao fazer login");
   }
 
   return response.json();
@@ -54,13 +50,13 @@ export default function Login() {
   console.log(isSubmitting);
 
   const mutation = useMutation({
-    mutationFn: registerUser,
-    onSuccess: () => {
-      alert("Usuário cadastrado com sucesso");
-      reset();
+    mutationFn: loginCompany,
+    onSuccess: (data) => {
+      alert("Login realziado com sucesso");
+      localStorage.setItem("token", data.token);
     },
     onError: (error) => {
-      alert(`Erro ao cadastrar: ${(error as Error).message}`)
+      alert(`Erro ao fazer login: ${(error as Error).message}`)
     },
   });
 
@@ -80,7 +76,7 @@ export default function Login() {
             {errors.email && <p className="text-red-500">{errors.email.message}</p>}
 
             <label className="text-primary-foreground " title="password">Senha:</label>
-            <Input className="w-[300px] mt-1 bg-primary text-primary-foreground" type="text" id="password" placeholder="Digite sua senha" {...register("password")} required></Input>
+            <Input className="w-[300px] mt-1 bg-primary text-primary-foreground" type="password" id="password" placeholder="Digite sua senha" {...register("password")} required></Input>
             {errors.password && <p className="text-red-500">{errors.password.message}</p>}
 
             <div className="flex flex-col">
