@@ -7,7 +7,7 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import Image from 'next/image';
+//import Image from 'next/image';
 //import Logo from "@/public/images/logo_test.png";
 import { useMutation } from "@tanstack/react-query";
 
