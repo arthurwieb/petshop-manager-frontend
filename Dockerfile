@@ -1,4 +1,6 @@
-FROM node:22-alpine
+FROM node:22-slim
+
+RUN corepack enable && corepack prepare yarn@4.6.0 --activate
 
 WORKDIR /app
 

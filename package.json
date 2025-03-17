@@ -1,5 +1,6 @@
 {
   "name": "petshop-manager-frontend",
+  "packageManager": "yarn@4.6.0",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -41,6 +42,5 @@
     "postcss": "^8",
     "tailwindcss": "^3.4.1",
     "typescript": "^5"
-  },
-  "packageManager": "yarn@1.22.22"
+  }
 }
