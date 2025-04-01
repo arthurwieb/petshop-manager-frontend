@@ -7,23 +7,20 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import Image from 'next/image';
-import Logo from "@/public/images/logo_test.png";
+//import Image from 'next/image';
+//import Logo from "@/public/images/logo_test.png";
 import { useMutation } from "@tanstack/react-query";
 
 
 const formSchema = z.object({
   email: z.string().email("Email inválido"),
   password: z.string().min(8, "Senha deve conter ao menos 8 caracteres"),
-  confirmPassword: z.string(),
-}).refine((data) => data.password === data.confirmPassword, {
-  message: "As senhas não coincidem",
-  path: ["confirmPassword"],
 });
 
 type FormData = z.infer<typeof formSchema>;
 
-const registerUser = async (data: FormData) => {
+const login = async (data: FormData) => {
+  console.log(data)
   const response = await fetch("", {
     method: "POST",
     headers: {
@@ -33,10 +30,11 @@ const registerUser = async (data: FormData) => {
   });
 
   if (!response.ok) {
-    throw new Error("Erro ao cadastrar o usuário");
+    throw new Error("Erro ao fazer login");
   }
 
-  return response.json();
+  return JSON.stringify(data)
+  //return response.json();
 };
 
 export default function Login() {
@@ -54,12 +52,14 @@ export default function Login() {
   console.log(isSubmitting);
 
   const mutation = useMutation({
-    mutationFn: registerUser,
+    mutationFn: login,
     onSuccess: () => {
-      alert("Usuário cadastrado com sucesso");
+      console.log("Usuário cadastrado com sucesso");
+      window.location.href = "/register"
       reset();
     },
     onError: (error) => {
+      console.log('nao logou');
       alert(`Erro ao cadastrar: ${(error as Error).message}`)
     },
   });
@@ -67,7 +67,7 @@ export default function Login() {
   return (
     <div className="flex h-screen">
       <div className="relative items-start justify-start w-[50vw] p-10 flex flex-col">
-        <div className="m-auto"><Image alt="logo" width={100} height={100} src={Logo}></Image></div>
+        <div className="m-auto"></div>
 
         <h1 className="relative text-secondary-foreground mt-auto">TESTE </h1>
       </div>
@@ -80,7 +80,7 @@ export default function Login() {
             {errors.email && <p className="text-red-500">{errors.email.message}</p>}
 
             <label className="text-primary-foreground " title="password">Senha:</label>
-            <Input className="w-[300px] mt-1 bg-primary text-primary-foreground" type="text" id="password" placeholder="Digite sua senha" {...register("password")} required></Input>
+            <Input className="w-[300px] mt-1 bg-primary text-primary-foreground" type="password" id="password" placeholder="Digite sua senha" {...register("password")} required></Input>
             {errors.password && <p className="text-red-500">{errors.password.message}</p>}
 
             <div className="flex flex-col">
