@@ -1,7 +1,7 @@
-import api from "./api";
+import { BaseService } from "./BaseService";
 
-export class UserService {
-  getUsers(){
-    return api.get("/users")
+export class UserService extends BaseService {
+  constructor(){
+    super("/users")
   }
 }

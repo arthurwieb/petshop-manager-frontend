@@ -7,7 +7,7 @@ export const axiosInstance = axios.create({
 });
 
 export class LoginService{
-    login(login: string, senha: string){
-        return axiosInstance.post("/auth/login", { username: login, password: senha});
+    login(email: string, password: string){
+        return axiosInstance.post("/login", { email: email, password: password});
     }
 }

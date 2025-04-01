@@ -6,16 +6,14 @@ export const axiosInstance = axios.create({
   headers: { "Content-Type": "application/json" }
 });
 
-
-export class BaseService{
-
+export class BaseService {
     url: string;
-
     constructor(url: string){
         this.url = url;
 
         axiosInstance.interceptors.request.use((config) => {
             const token = localStorage.getItem('JWT_TOKEN');          
+            console.log("Token utilizado na chamada " + url + ": " + token);
             const authRequestToken = token ? `Bearer ${token}` : '';
             config.headers['Authorization'] = authRequestToken;
             return config;
@@ -33,7 +31,6 @@ export class BaseService{
             }
             return Promise.reject(erro);
         });
-
     }
 
     getAll(){

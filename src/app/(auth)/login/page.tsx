@@ -1,5 +1,4 @@
 "use client"
-
 import Link from "next/link";
 import * as React from "react";
 import { useForm } from "react-hook-form";
@@ -7,45 +6,36 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-//import Image from 'next/image';
-//import Logo from "@/public/images/logo_test.png";
 import { useMutation } from "@tanstack/react-query";
-
+import { LoginService } from "@/services/LoginService";
 
 const formSchema = z.object({
   email: z.string().email("Email inválido"),
   password: z.string().min(8, "Senha deve conter ao menos 8 caracteres"),
 });
 
+const loginService = new LoginService();
 type FormData = z.infer<typeof formSchema>;
 
 const login = async (data: FormData) => {
-  console.log(data)
-  const response = await fetch("", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(data),
-  });
-
-  if (!response.ok) {
-    throw new Error("Erro ao fazer login");
+  try {
+    const response = await loginService.login(data.email, data.password);
+    localStorage.setItem("JWT_TOKEN", response.data.token);
+    console.log("token armazenado: " + localStorage.getItem("JWT_TOKEN"));
+    return response.data; 
+  } catch (error) {
+    console.log("Login error");
+    throw error; 
   }
-
-  return JSON.stringify(data)
-  //return response.json();
 };
 
 export default function Login() {
-
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
-    reset,
+    //reset,
   } = useForm<FormData>({
-
     resolver: zodResolver(formSchema),
   });
   // só pra não bugar o container por causa do eslint
@@ -54,9 +44,9 @@ export default function Login() {
   const mutation = useMutation({
     mutationFn: login,
     onSuccess: () => {
-      console.log("Usuário cadastrado com sucesso");
-      window.location.href = "/register"
-      reset();
+      console.log("LOGOU!");
+      window.location.href = "/users"
+      //reset();
     },
     onError: (error) => {
       console.log('nao logou');
