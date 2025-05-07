@@ -4,6 +4,10 @@ import "./globals.css";
 import { ReactQueryProvider } from "@/provider/react-query";
 import "@fontsource/poppins"; // Defaults to 400 weight
 
+import '@mantine/core/styles.css';
+
+import { ColorSchemeScript, MantineProvider, mantineHtmlProps } from '@mantine/core';
+
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -26,15 +30,25 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" {...mantineHtmlProps}>
+      <head>
+        <ColorSchemeScript />
+        <link rel="shortcut icon" href="/favicon.svg" />
+        <meta
+          name="viewport"
+          content="minimum-scale=1, initial-scale=1, width=device-width, user-scalable=no"
+        />
+      </head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-slate-600`}
       >
-        <ReactQueryProvider>
-          <main>
-            {children}
-          </main>
-        </ReactQueryProvider>
+        <MantineProvider>
+          <ReactQueryProvider>
+            <main>
+              {children}
+            </main>
+          </ReactQueryProvider>
+        </MantineProvider>
       </body>
     </html>
   );
