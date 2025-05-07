@@ -15,33 +15,33 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { Calendar, ChevronDown, Home, Inbox, Search, Settings } from "lucide-react"
+import { ChevronDown, Settings, PawPrint, PersonStanding, Calendar1, ChartColumnIncreasing } from "lucide-react"
 
 
 // Menu items.
 const items = [
   {
-    title: "Home",
+    title: "Dashboard",
     url: "#",
-    icon: Home,
+    icon: ChartColumnIncreasing,
   },
   {
-    title: "Inbox",
+    title: "Pets",
     url: "#",
-    icon: Inbox,
+    icon: PawPrint,
   },
   {
-    title: "Calendar",
+    title: "Clientes",
     url: "#",
-    icon: Calendar,
+    icon: PersonStanding,
   },
   {
-    title: "Search",
+    title: "Agendamentos",
     url: "#",
-    icon: Search,
+    icon: Calendar1,
   },
   {
-    title: "Settings",
+    title: "Configurações",
     url: "#",
     icon: Settings,
   },
