@@ -1,9 +1,9 @@
 import axios from "axios";
 
 export const axiosInstance = axios.create({
-  baseURL: 'http://localhost:3001',
-  timeout: 1000,
-  headers: { "Content-Type": "application/json" }
+    baseURL: 'http://localhost:3001',
+    timeout: 1000,
+    headers: { "Content-Type": "application/json" }
 });
 
 export class BaseService {
@@ -21,16 +21,26 @@ export class BaseService {
             (error) => Promise.reject(error)
         );
 
-        axiosInstance.interceptors.response.use((response) => {            
-            return response;
-        }, async (erro) => {
-            console.log(erro.response.status);
-            if (erro.response.status == 401) {
-                localStorage.removeItem('JWT_TOKEN');
-                window.location.reload();         
+        axiosInstance.interceptors.response.use((response) => response,
+            (error) => {
+                if (error.response?.status === 401) {
+                    localStorage.removeItem('JWT_TOKEN');
+                    if (typeof window !== 'undefined') {
+                        window.location.href = '/login';
+                    }
+                }
+                return Promise.reject(error);
             }
-            return Promise.reject(erro);
-        });
+        );
+    }
+
+    logout(){
+        localStorage.removeItem('JWT_TOKEN');
+        delete axiosInstance.defaults.headers.common['Authorization'];
+        
+        if (typeof window !== 'undefined') {
+            window.location.href = '/login';
+        }
     }
 
     getAll(){

@@ -13,16 +13,21 @@ interface User {
 
 export default function Users() {
   const [users, setUsers] = useState<User[] | null>(null);
-  const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     userService.getAll()
-      .then((response) => setUsers(response.data)) 
-      .catch(() => setError("Erro ao buscar usuários."));
+      .then((response) => {
+        setUsers(response.data);
+        setLoading(false);
+      })
+      .catch(() => {
+        setLoading(false);
+      });
   }, []);
 
-  if (error) return <p className="text-red-500">{error}</p>;
-  if (!users) return <p>Carregando...</p>;
+  if (loading) return <p>Carregando...</p>;
+  if (!users) return null; 
 
   return (
     <div className="p-6">

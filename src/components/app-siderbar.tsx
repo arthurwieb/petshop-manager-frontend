@@ -22,17 +22,17 @@ import { ChevronDown, Settings, PawPrint, PersonStanding, Calendar1, ChartColumn
 const items = [
   {
     title: "Dashboard",
-    url: "#",
+    url: "/",
     icon: ChartColumnIncreasing,
   },
   {
     title: "Pets",
-    url: "#",
+    url: "/pet",
     icon: PawPrint,
   },
   {
     title: "Clientes",
-    url: "#",
+    url: "/users",
     icon: PersonStanding,
   },
   {

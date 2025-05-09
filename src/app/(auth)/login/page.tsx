@@ -39,7 +39,7 @@ export default function Login() {
     resolver: zodResolver(formSchema),
   });
   // só pra não bugar o container por causa do eslint
-  console.log(isSubmitting);
+  console.log("IGNORE ESSE LOG " + isSubmitting);
 
   const mutation = useMutation({
     mutationFn: login,
