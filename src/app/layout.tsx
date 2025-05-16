@@ -1,10 +1,14 @@
 import "./globals.css";
 import "@fontsource/poppins"; // Defaults to 400 weight
 import '@mantine/core/styles.css';
+import 'mantine-react-table/styles.css'; //import MRT styles
+import '@mantine/notifications/styles.css';
+
 import HydrationProvider from "./HydrationProvider";
 import { Geist, Geist_Mono } from "next/font/google";
 import { ReactQueryProvider } from "@/provider/react-query";
 import { ColorSchemeScript, createTheme, MantineProvider, mantineHtmlProps } from '@mantine/core';
+import { Notifications } from "@mantine/notifications";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -23,6 +27,13 @@ export const metadata = {
 
 const theme = createTheme({
   fontFamily: "Arial",
+  components: {
+    TextInput: {
+      defaultProps: {
+        mb: 'md',
+      },
+    }
+  }
 });
 
 export default function RootLayout({
@@ -45,6 +56,11 @@ export default function RootLayout({
       >
         <HydrationProvider>
           <MantineProvider theme={theme} defaultColorScheme="dark">
+            <Notifications
+              position="top-right"
+              // zIndex={1000}
+              autoClose={10000}
+            />
             <ReactQueryProvider>
               <main>
                 {children}

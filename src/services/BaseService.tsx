@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, { AxiosResponse } from "axios";
 
 export const axiosInstance = axios.create({
     baseURL: 'http://localhost:3001',
@@ -53,5 +53,15 @@ export class BaseService {
 
     delete(id : number){
         return axiosInstance.delete(this.url + "/" + id);
+    }
+
+    insert<T>(data: T): Promise<AxiosResponse<T>> {
+        console.log("insert");
+        console.log(JSON.stringify(data));
+        return axiosInstance.post<T>(this.url, JSON.stringify(data));
+    }
+
+    update<T>(data: T): Promise<AxiosResponse<T>> {
+        return axiosInstance.put<T>(this.url, data);
     }
 }

@@ -1498,6 +1498,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@tanstack/match-sorter-utils@npm:8.19.4":
+  version: 8.19.4
+  resolution: "@tanstack/match-sorter-utils@npm:8.19.4"
+  dependencies:
+    remove-accents: "npm:0.5.0"
+  checksum: 10c0/935022e3d639f19472131d289f3e1202253ff34301717c337e9bac0eeae6a0bd56450ed8ae2f7eb7ac9dfefa7ceaa7d126d8c5441021968b4a9eabc3ac4f8ba1
+  languageName: node
+  linkType: hard
+
 "@tanstack/query-core@npm:5.68.0":
   version: 5.68.0
   resolution: "@tanstack/query-core@npm:5.68.0"
@@ -1513,6 +1522,44 @@ __metadata:
   peerDependencies:
     react: ^18 || ^19
   checksum: 10c0/5d9dc4e17324976fe00203bbb25893089d709051896b5c3f523939cfeb3ab70cf1c68606bf6464815ee62c7bf4af69a590a17d5e6b6f6e7bdc0e80fc370a480a
+  languageName: node
+  linkType: hard
+
+"@tanstack/react-table@npm:8.20.5":
+  version: 8.20.5
+  resolution: "@tanstack/react-table@npm:8.20.5"
+  dependencies:
+    "@tanstack/table-core": "npm:8.20.5"
+  peerDependencies:
+    react: ">=16.8"
+    react-dom: ">=16.8"
+  checksum: 10c0/574fa62fc6868a3b1113dbd043323f8b73aeb60555609caa164d5137a14636d4502784a961191afde2ec46f33f8c2bbfc4561d27a701c3d084e899a632dda3c8
+  languageName: node
+  linkType: hard
+
+"@tanstack/react-virtual@npm:3.11.2":
+  version: 3.11.2
+  resolution: "@tanstack/react-virtual@npm:3.11.2"
+  dependencies:
+    "@tanstack/virtual-core": "npm:3.11.2"
+  peerDependencies:
+    react: ^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
+    react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
+  checksum: 10c0/de446ce517d0855b3d58e79b6a75a37be40b4529baf0a5c3ffa2662dea80aba03409e06545aea27aa9e3a36fc2a2e3005ecbfce16a4659991d66930ea3bd62d4
+  languageName: node
+  linkType: hard
+
+"@tanstack/table-core@npm:8.20.5":
+  version: 8.20.5
+  resolution: "@tanstack/table-core@npm:8.20.5"
+  checksum: 10c0/3c27b5debd61b6bd9bfbb40bfc7c5d5af90873ae1a566b20e3bf2d2f4f2e9a78061c081aacc5259a00e256f8df506ec250eb5472f5c01ff04baf9918b554982b
+  languageName: node
+  linkType: hard
+
+"@tanstack/virtual-core@npm:3.11.2":
+  version: 3.11.2
+  resolution: "@tanstack/virtual-core@npm:3.11.2"
+  checksum: 10c0/38f1047127c6b1d07fe95becb7a12e66fb7c59d37ec0359e4ab339f837c6b906e1adff026ebd12849ba851d3f118d491014205c6b3c6ed8568cc232a798aeaaf
   languageName: node
   linkType: hard
 
@@ -4597,6 +4644,36 @@ __metadata:
   languageName: node
   linkType: hard
 
+"mantine-form-zod-resolver@npm:^1.1.0":
+  version: 1.1.0
+  resolution: "mantine-form-zod-resolver@npm:1.1.0"
+  peerDependencies:
+    "@mantine/form": ">=7.0.0"
+    zod: ">=3.0.0"
+  checksum: 10c0/3ff086f2a5d7b9d3d56b09f16fdc27919000c2007279c2e5e6fe85c60c56ee75a13cfebaa1dd341c4ddafd73aba9a3c59a98ea41c59ea8d01c67483dc07ea1ad
+  languageName: node
+  linkType: hard
+
+"mantine-react-table@npm:^2.0.0-beta.9":
+  version: 2.0.0-beta.9
+  resolution: "mantine-react-table@npm:2.0.0-beta.9"
+  dependencies:
+    "@tanstack/match-sorter-utils": "npm:8.19.4"
+    "@tanstack/react-table": "npm:8.20.5"
+    "@tanstack/react-virtual": "npm:3.11.2"
+  peerDependencies:
+    "@mantine/core": ^7.9
+    "@mantine/dates": ^7.9
+    "@mantine/hooks": ^7.9
+    "@tabler/icons-react": ">=2.23.0"
+    clsx: ">=2"
+    dayjs: ">=1.11"
+    react: ">=18.0"
+    react-dom: ">=18.0"
+  checksum: 10c0/8a560096d4a6ecc3f0eb16ea171c3d2589125f53152e0ed8ac1853977b6fa35994cf7b4f553b92b9b0333010805f8c0e42f002330408925cbc8050b03528df0b
+  languageName: node
+  linkType: hard
+
 "markdown-it@npm:^14.0.0":
   version: 14.1.0
   resolution: "markdown-it@npm:14.1.0"
@@ -5199,6 +5276,8 @@ __metadata:
     eslint: "npm:^9"
     eslint-config-next: "npm:15.1.6"
     lucide-react: "npm:^0.474.0"
+    mantine-form-zod-resolver: "npm:^1.1.0"
+    mantine-react-table: "npm:^2.0.0-beta.9"
     next: "npm:15.1.6"
     postcss: "npm:^8.5.3"
     postcss-preset-mantine: "npm:^1.17.0"
@@ -5212,7 +5291,7 @@ __metadata:
     tailwindcss: "npm:^3.4.1"
     tailwindcss-animate: "npm:^1.0.7"
     typescript: "npm:^5"
-    zod: "npm:^3.24.1"
+    zod: "npm:^3.24.4"
   languageName: unknown
   linkType: soft
 
@@ -7153,9 +7232,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"zod@npm:^3.24.1":
-  version: 3.24.2
-  resolution: "zod@npm:3.24.2"
-  checksum: 10c0/c638c7220150847f13ad90635b3e7d0321b36cce36f3fc6050ed960689594c949c326dfe2c6fa87c14b126ee5d370ccdebd6efb304f41ef5557a4aaca2824565
+"zod@npm:^3.24.4":
+  version: 3.24.4
+  resolution: "zod@npm:3.24.4"
+  checksum: 10c0/ab3112f017562180a41a0f83d870b333677f7d6b77f106696c56894567051b91154714a088149d8387a4f50806a2520efcb666f108cd384a35c236a191186d91
   languageName: node
   linkType: hard

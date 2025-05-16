@@ -26,7 +26,7 @@ export default function PetLayout({ children }: { children: React.ReactNode }) {
       </AppShell.Main>
 
       <AppShell.Footer zIndex={opened ? 'auto' : 201} className="flex items-center justify-center" >
-        KRAHL DEVS ALL RIGHTS RESERVED 
+        KRAHL DEVS ALL RIGHTS RESERVED
       </AppShell.Footer>
     </AppShell>
   );
