@@ -6,7 +6,7 @@ export const petSchema = z.object({
   breed: z.string().optional(),
   age: z.coerce.number().int().nonnegative().optional(),
   company_id: z.number().int(),
-  customer_id: z.number().int(),
+  customer_id: z.coerce.number().int(),
 });
 
 export type PetFormData = z.infer<typeof petSchema>;

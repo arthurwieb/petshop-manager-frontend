@@ -1,11 +1,12 @@
 "use client"
 
-import { Button, Group, NumberInput, TextInput } from '@mantine/core';
+import { Button, Group, NumberInput, Select, TextInput } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { zodResolver } from 'mantine-form-zod-resolver';
 import { petSchema, PetFormData } from '@/types/Pet';
 import { notifications } from '@mantine/notifications';
 import { PetService } from "@/services/PetService";
+import { CustomerService } from "@/services/CustomerService";
 import { useMutation } from '@tanstack/react-query';
 
 
@@ -52,6 +53,7 @@ export default function PetForm() {
   const handleReset = () => {
     form.reset();
     form.clearErrors();
+    console.log(new CustomerService().getSelectOptions());
   };
 
   return (
@@ -78,13 +80,27 @@ export default function PetForm() {
 
       <NumberInput
         label="Idade"
+        hideControls
         placeholder="Idade do bicho"
         key={form.key('age')}
         {...form.getInputProps('age')}
       />
 
+      <Select
+        label="Tutor"
+        placeholder="Cliente responsável pelo animal"
+        data={[{ value: '1', label: 'Fulano' }]}
+        searchable
+        clearable
+        key={form.key('customer_id')}
+        nothingFoundMessage="Nothing found..."
+        {...form.getInputProps('customer_id')}
+      />
+
+
+      {/* Criar mais um campo para oberservações, exemplo: Cachorro brabo, cachorro com problema na pata direita, cachorro alérgico a X */}
+
       <input type="hidden" {...form.getInputProps('company_id')} />
-      <input type="hidden" {...form.getInputProps('customer_id')} />
 
       <Group justify="flex-end" mt="md">
         <Button type="submit" loading={mutation.isPending}>

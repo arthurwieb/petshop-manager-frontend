@@ -32,7 +32,17 @@ const theme = createTheme({
       defaultProps: {
         mb: 'md',
       },
-    }
+    },
+    NumberInput: {
+      defaultProps: {
+        mb: 'md',
+      },
+    },
+    Select: {
+      defaultProps: {
+        mb: 'md',
+      },
+    },
   }
 });
 
