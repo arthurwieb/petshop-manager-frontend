@@ -1,4 +1,5 @@
 import axios, { AxiosResponse } from "axios";
+import { sessionStore } from '@/store/session-store';
 
 export const axiosInstance = axios.create({
     baseURL: 'http://localhost:3001',
@@ -15,8 +16,8 @@ export class BaseService {
         this.url = url;
 
         axiosInstance.interceptors.request.use((config) => {
-            const token = localStorage.getItem('JWT_TOKEN');          
-            console.log("Token utilizado na chamada " + url + ": " + token);
+            const token = sessionStore.getState().user?.token as string;
+            console.log("Token zustand utilizado na chamada " + url + ": " + token);
             const authRequestToken = token ? `Bearer ${token}` : '';
             config.headers['Authorization'] = authRequestToken;
             return config;
@@ -27,7 +28,7 @@ export class BaseService {
         axiosInstance.interceptors.response.use((response) => response,
             (error) => {
                 if (error.response?.status === 401) {
-                    localStorage.removeItem('JWT_TOKEN');
+                    sessionStore.getState().clearUser();
                     if (typeof window !== 'undefined') {
                         window.location.href = '/login';
                     }
@@ -38,7 +39,7 @@ export class BaseService {
     }
 
     logout(){
-        localStorage.removeItem('JWT_TOKEN');
+        sessionStore.getState().clearUser();
         delete axiosInstance.defaults.headers.common['Authorization'];
         
         if (typeof window !== 'undefined') {

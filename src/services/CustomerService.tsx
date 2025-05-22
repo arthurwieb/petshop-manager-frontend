@@ -13,7 +13,7 @@ export class CustomerService extends BaseService {
     const customers = z.array(customerSchema).parse(response.data);
 
     return customers.map(customer => ({
-      value: customer.company_id.toString(),
+      value: customer.id.toString(),
       label: customer.name
     }));
   }

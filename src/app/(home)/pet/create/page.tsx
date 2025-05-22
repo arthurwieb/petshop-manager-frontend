@@ -1,16 +1,18 @@
 "use client"
 
-import { Button, Group, NumberInput, Select, TextInput } from '@mantine/core';
+import { Button, Group, NumberInput, Select, Textarea, TextInput } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { zodResolver } from 'mantine-form-zod-resolver';
 import { petSchema, PetFormData } from '@/types/Pet';
 import { notifications } from '@mantine/notifications';
 import { PetService } from "@/services/PetService";
 import { CustomerService } from "@/services/CustomerService";
-import { useMutation } from '@tanstack/react-query';
-
+import { useMutation, useQuery } from '@tanstack/react-query';
+import { sessionStore } from '@/store/session-store';
 
 export default function PetForm() {
+  const user = sessionStore(state => state.user);
+
   const form = useForm<PetFormData>({
     mode: 'uncontrolled',
     initialValues: {
@@ -18,12 +20,17 @@ export default function PetForm() {
       species: '',
       breed: '',
       age: undefined,
-      company_id: 1, //futuramente isso vai pegar automático de acordo com qual companhia estamos logados, exemplo petshop do ander = company 1
-      customer_id: 1, //temos que fazer um selector que identifica os clientes cadastrados, de preferência com um autocomplete
-
+      company_id: user?.company_id as number,
+      customer_id: 1, 
+      notes: ''
     },
     validate: zodResolver(petSchema),
     validateInputOnChange: true,
+  });
+
+  const { data: customerOptions = [] } = useQuery({
+    queryKey: ['customers'],
+    queryFn: () => new CustomerService().getSelectOptions(),
   });
 
   const mutation = useMutation({
@@ -53,7 +60,7 @@ export default function PetForm() {
   const handleReset = () => {
     form.reset();
     form.clearErrors();
-    console.log(new CustomerService().getSelectOptions());
+    console.log("user zustand " + user?.email as string);
   };
 
   return (
@@ -89,7 +96,7 @@ export default function PetForm() {
       <Select
         label="Tutor"
         placeholder="Cliente responsável pelo animal"
-        data={[{ value: '1', label: 'Fulano' }]}
+        data={customerOptions}
         searchable
         clearable
         key={form.key('customer_id')}
@@ -97,8 +104,15 @@ export default function PetForm() {
         {...form.getInputProps('customer_id')}
       />
 
-
-      {/* Criar mais um campo para oberservações, exemplo: Cachorro brabo, cachorro com problema na pata direita, cachorro alérgico a X */}
+      <Textarea
+        label="Observações"
+        placeholder="Ex: Cachorro bravo, alérgico a remédios, problema na pata traseira..."
+        autosize
+        minRows={2}
+        maxRows={4}
+        key={form.key('notes')}
+        {...form.getInputProps('notes')}
+      />
 
       <input type="hidden" {...form.getInputProps('company_id')} />
 

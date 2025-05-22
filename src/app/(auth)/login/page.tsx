@@ -8,28 +8,17 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useMutation } from "@tanstack/react-query";
 import { LoginService } from "@/services/LoginService";
+import { sessionStore } from '@/store/session-store';
 
 const formSchema = z.object({
   email: z.string().email("Email inválido"),
   password: z.string().min(8, "Senha deve conter ao menos 8 caracteres"),
 });
 
-const loginService = new LoginService();
-type FormData = z.infer<typeof formSchema>;
-
-const login = async (data: FormData) => {
-  try {
-    const response = await loginService.login(data.email, data.password);
-    localStorage.setItem("JWT_TOKEN", response.data.token);
-    console.log("token armazenado: " + localStorage.getItem("JWT_TOKEN"));
-    return response.data; 
-  } catch (error) {
-    console.log("Login error");
-    throw error; 
-  }
-};
 
 export default function Login() {
+  const setUser = sessionStore((state) => state.setUser);
+
   const {
     register,
     handleSubmit,
@@ -40,6 +29,20 @@ export default function Login() {
   });
   // só pra não bugar o container por causa do eslint
   console.log("IGNORE ESSE LOG " + isSubmitting);
+
+  const loginService = new LoginService();
+  type FormData = z.infer<typeof formSchema>;
+
+  const login = async (data: FormData) => {
+    try {
+      const response = await loginService.login(data.email, data.password);
+      setUser(response.data);
+      return response.data;
+    } catch (error) {
+      console.log("Login error");
+      throw error;
+    }
+  };
 
   const mutation = useMutation({
     mutationFn: login,
