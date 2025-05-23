@@ -16,10 +16,18 @@ export class BaseService {
         this.url = url;
 
         axiosInstance.interceptors.request.use((config) => {
-            const token = sessionStore.getState().user?.token as string;
+            const user = sessionStore.getState().user;
+            const token = user?.token as string;
             console.log("Token zustand utilizado na chamada " + url + ": " + token);
             const authRequestToken = token ? `Bearer ${token}` : '';
             config.headers['Authorization'] = authRequestToken;
+            
+            if (user?.company_id && !config.params?.company_id) {
+                config.params = {
+                    ...config.params,
+                    company_id: user.company_id
+                };
+            }
             return config;
         },
             (error) => Promise.reject(error)
