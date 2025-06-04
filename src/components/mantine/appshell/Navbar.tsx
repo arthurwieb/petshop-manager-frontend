@@ -30,6 +30,14 @@ export default function Navbar() {
 
       <NavLink
         component={Link}
+        href="/customers"
+        label="Clientes"
+        mb={5}
+        leftSection={<IconUser size="1rem" />}
+      />
+
+      <NavLink
+        component={Link}
         href="/users"
         label="Usuários"
         mb={5}
