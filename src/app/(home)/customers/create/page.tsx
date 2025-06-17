@@ -3,7 +3,7 @@
 import { PhoneInput } from "@/components/mantine/inputs/phone-input";
 import { CustomerService } from "@/services/CustomerService";
 import { sessionStore } from '@/store/session-store';
-import { customerDataSchema, customerForm } from '@/types/Customer';
+import { customerSchema, customerForm } from '@/types/Customer';
 import { Button, Group, Textarea, TextInput } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { notifications } from '@mantine/notifications';
@@ -14,7 +14,6 @@ export default function CustomerForm() {
   const user = sessionStore(state => state.user);
 
   const form = useForm<customerForm>({
-    mode: 'uncontrolled',
     initialValues: {
       name: '',
       phone: '',
@@ -22,7 +21,7 @@ export default function CustomerForm() {
       address: '',
       company_id: user?.company_id as number,
     },
-    validate: zodResolver(customerDataSchema),
+    validate: zodResolver(customerSchema),
     validateInputOnChange: true,
   });
 
@@ -46,8 +45,12 @@ export default function CustomerForm() {
   });
 
   const handleSubmit = (values: typeof form.values) => {
-    console.log(values);
-    mutation.mutate(values);
+    try {
+      console.log(values);
+      mutation.mutate(values);
+    } catch (error) {
+      console.error("Submission failed:", error); // Simple error logging
+    }
   };
 
   const handleReset = () => {
@@ -61,7 +64,7 @@ export default function CustomerForm() {
     <form onSubmit={form.onSubmit(handleSubmit)} onReset={handleReset}>
       <TextInput
         label="Nome"
-        placeholder="Nome do pet"
+        placeholder="Nome do cliente"
         key={form.key('name')}
         {...form.getInputProps('name')}
       />

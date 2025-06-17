@@ -1,5 +1,6 @@
 import axios, { AxiosResponse } from "axios";
 import { sessionStore } from '@/store/session-store';
+import type { ZodSchema } from "zod";
 
 export const axiosInstance = axios.create({
     baseURL: 'http://localhost:3001',
@@ -55,8 +56,12 @@ export class BaseService {
         }
     }
 
-    getAll(){
-        return axiosInstance.get(this.url);
+    async getAll<T>(schema?: ZodSchema<T[]>): Promise<T[]> {
+        const response = await axiosInstance.get(this.url);
+        if (schema) {
+            return schema.parse(response.data);
+        }
+        return response.data;
     }
 
     getById(id : number) {
