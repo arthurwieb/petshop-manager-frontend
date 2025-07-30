@@ -1,55 +1,84 @@
 "use client";
 
 import { Box, Button, Group, Title } from "@mantine/core";
-import { useQuery } from "@tanstack/react-query";
 import {
   MantineReactTable,
   MRT_RowData,
   useMantineReactTable,
   type MRT_ColumnDef,
 } from "mantine-react-table";
-import { useState } from "react";
 
-interface GenericTableProps<T extends MRT_RowData & { id: number }> {
+interface GenericTableProps<T extends MRT_RowData> {
   title: string;
   columns: MRT_ColumnDef<T>[];
-  queryFn: () => Promise<T[]>;
-  formComponent?: React.FC<{
-    opened: boolean;
-    onClose: () => void;
-    onSuccess?: () => void;
-  }>;
+  data: T[];
+  isLoading?: boolean;
+  onAddClick?: () => void;
+  onDeleteSelected?: (selectedRow: T) => void;
+  onEditClick?: (selectedRow: T) => void;
 }
 
 export function GenericTable<T extends MRT_RowData & { id: number }>({
   title,
   columns,
-  queryFn,
-  formComponent: FormComponent,
+  data,
+  isLoading = false,
+  onAddClick,
+  onDeleteSelected,
+  onEditClick,
 }: GenericTableProps<T>) {
-  const [modalOpen, setModalOpen] = useState(false);
-
-  const { data, isLoading, refetch } = useQuery<T[]>({
-    queryKey: [title.toLowerCase()],
-    queryFn,
-  });
 
   const table = useMantineReactTable({
     columns,
-    data: data ?? [],
-    enableColumnResizing: true,
-    enableRowSelection: false,
-    enableFullScreenToggle: true,
+    data: data,
+    enablePagination: true,
+    enableRowSelection: true,
+    enableMultiRowSelection: false,
+    enableSelectAll: false,
+    mantineTableBodyRowProps: ({ row }) => ({
+      onClick: row.getToggleSelectedHandler(),
+      sx: { cursor: 'pointer' },
+    }),
     mantineTableProps: {
       striped: true,
       withTableBorder: true,
     },
-    state: {
-      isLoading,
+    initialState: {
+      columnVisibility: {
+        'mrt-row-select': false,
+      },
     },
-    renderTopToolbarCustomActions: () => (
-      <Button onClick={() => setModalOpen(true)}>Novo</Button>
-    ),
+    state: {
+      isLoading: isLoading,
+    },
+    renderTopToolbarCustomActions: ({ table }) => {
+      const selectedRow = table.getSelectedRowModel().rows[0];
+      return (
+        <Group gap="sm">
+          {onAddClick && <Button onClick={onAddClick}>Novo</Button>}
+
+          {onEditClick && (
+            <Button
+              onClick={() => selectedRow && onEditClick(selectedRow.original)}
+              disabled={!selectedRow}
+              color="blue"
+            >
+              Editar
+            </Button>
+          )}
+
+          {onDeleteSelected && (
+            <Button
+              onClick={() => selectedRow && onDeleteSelected(selectedRow.original)}
+              disabled={!selectedRow}
+              color="red"
+            >
+              Deletar
+            </Button>
+          )}
+        </Group>
+      );
+    },
   });
 
   return (
@@ -59,17 +88,6 @@ export function GenericTable<T extends MRT_RowData & { id: number }>({
       </Group>
 
       <MantineReactTable table={table} />
-
-      {FormComponent && (
-        <FormComponent
-          opened={modalOpen}
-          onClose={() => setModalOpen(false)}
-          onSuccess={() => {
-            refetch();
-            setModalOpen(false);
-          }}
-        />
-      )}
     </Box>
   );
 }

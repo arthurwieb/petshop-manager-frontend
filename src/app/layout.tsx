@@ -8,6 +8,7 @@ import HydrationProvider from "./HydrationProvider";
 import { Geist, Geist_Mono } from "next/font/google";
 import { ReactQueryProvider } from "@/provider/react-query";
 import { ColorSchemeScript, createTheme, MantineProvider, mantineHtmlProps } from '@mantine/core';
+import { ModalsProvider } from '@mantine/modals';
 import { Notifications } from "@mantine/notifications";
 
 const geistSans = Geist({
@@ -43,6 +44,12 @@ const theme = createTheme({
         mb: 'md',
       },
     },
+    Button: {
+      defaultProps: {
+        // color: 'dark',
+        variant: 'filled',
+      },
+    },
   }
 });
 
@@ -66,16 +73,18 @@ export default function RootLayout({
       >
         <HydrationProvider>
           <MantineProvider theme={theme} defaultColorScheme="dark">
-            <Notifications
-              position="top-right"
-              // zIndex={1000}
-              autoClose={10000}
-            />
-            <ReactQueryProvider>
-              <main>
-                {children}
-              </main>
-            </ReactQueryProvider>
+            <ModalsProvider>
+              <Notifications
+                position="top-right"
+                // zIndex={1000}
+                autoClose={10000}
+              />
+              <ReactQueryProvider>
+                <main>
+                  {children}
+                </main>
+              </ReactQueryProvider>
+            </ModalsProvider>
           </MantineProvider>
         </HydrationProvider>
       </body>

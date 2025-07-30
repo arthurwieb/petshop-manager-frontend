@@ -38,14 +38,6 @@ export default function Navbar() {
 
       <NavLink
         component={Link}
-        href="/users"
-        label="Usuários"
-        mb={5}
-        leftSection={<IconUser size="1rem" />}
-      />
-
-      <NavLink
-        component={Link}
         href="/schedule"
         label="Agendamentos"
         mb={5}

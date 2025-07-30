@@ -1,5 +1,4 @@
 "use client"
-
 import { Button, Group, NumberInput, Select, Textarea, TextInput } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { zodResolver } from 'mantine-form-zod-resolver';

@@ -1,15 +1,23 @@
-import { Button, Input, Select } from "@mantine/core";
-import { FooterCentered } from "@/components/mantine/footer/FooterCentered";
+'use client';
+import { sessionStore } from '@/store/session-store';
+import { useRouter } from 'next/navigation';
+import { useEffect } from "react";
 
 export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Input placeholder="Teste"/>
-        <Button variant="filled"> Button</Button>
-        <Select data={["ander", "arthur", "buggy", "haas"]} label="leibel" className="w-full"/>
-        <FooterCentered/>
-      </main>
-    </div>
-  );
+  const router = useRouter();
+  const isLoggedIn = sessionStore.getState().isLoggedIn();
+
+  console.log('isLoggedIn', isLoggedIn);
+
+  useEffect(() => {
+  if (isLoggedIn) {
+    console.log('Usuário logado — redirecionando para /pet');
+    router.replace('/pet');
+  } else {
+    console.log('Usuário não logado — redirecionando para /login');
+    router.replace('/login');
+  }
+}, [isLoggedIn, router]);
+
+  return null;
 }

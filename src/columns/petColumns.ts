@@ -1,7 +1,15 @@
 import { MRT_ColumnDef } from 'mantine-react-table';
-import { PetFormData } from '@/types/Pet';
+import { PetData } from '@/types/Pet';
 
-export const petColumns: MRT_ColumnDef<PetFormData>[] = [
+export const petColumns: MRT_ColumnDef<PetData>[] = [
+  {
+    accessorKey: 'id',
+    header: 'ID',
+  },
+  {
+    accessorKey: 'customer_id',
+    header: 'Tutor',
+  },
   {
     accessorKey: 'name',
     header: 'Nome',
@@ -18,12 +26,9 @@ export const petColumns: MRT_ColumnDef<PetFormData>[] = [
     accessorKey: 'age',
     header: 'Idade',
   },
+  
   {
-    accessorKey: 'Idade',
-    header: 'age',
-  },
-  {
-    accessorKey: 'customer_id',
-    header: 'Tutor',
+    accessorKey: 'notes',
+    header: 'Observações',
   },
 ];
