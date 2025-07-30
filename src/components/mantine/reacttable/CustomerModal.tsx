@@ -1,4 +1,3 @@
-// components/mantine/reacttable/CustomerModal.tsx
 "use client";
 
 import { Modal, Button, Group, Textarea, TextInput } from "@mantine/core";
@@ -54,6 +53,7 @@ export function CustomerModal({ opened, onClose, onSuccess, customerToEdit }: Cu
     mutationFn: (values: customerForm) => new CustomerService().insert(values),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["customers"] });
+      queryClient.invalidateQueries({ queryKey: ["customers-list"] });
       notifications.show({
         title: "Sucesso!",
         message: "Cliente cadastrado com sucesso",
@@ -76,6 +76,7 @@ export function CustomerModal({ opened, onClose, onSuccess, customerToEdit }: Cu
     mutationFn: (values: customerData) => new CustomerService().update(values),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["customers"] });
+      queryClient.invalidateQueries({ queryKey: ["customers-list"] });
       notifications.show({
         title: "Sucesso!",
         message: "Cliente atualizado com sucesso",

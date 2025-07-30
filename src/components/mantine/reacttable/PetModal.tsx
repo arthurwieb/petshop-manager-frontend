@@ -55,14 +55,14 @@ export function PetModal({ opened, onClose, onSuccess, petToEdit }: PetModalProp
 
 
   const { data: customerOptions = [] } = useQuery({
-    queryKey: ['customers'],
+    queryKey: ['customers-list'],
     queryFn: () => new CustomerService().getSelectOptions(),
   });
 
   const createMutation = useMutation({
     mutationFn: (values: PetFormData) => new PetService().insert(values),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["customers"] });
+      queryClient.invalidateQueries({ queryKey: ["pets"] });
       notifications.show({
         title: "Sucesso!",
         message: "Pet cadastrado com sucesso",
@@ -85,7 +85,7 @@ export function PetModal({ opened, onClose, onSuccess, petToEdit }: PetModalProp
   const updateMutation = useMutation({
     mutationFn: (values: PetData) => new PetService().update(values),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["customers"] });
+      queryClient.invalidateQueries({ queryKey: ["pets"] });
       notifications.show({
         title: "Sucesso!",
         message: "Pet atualizado com sucesso",

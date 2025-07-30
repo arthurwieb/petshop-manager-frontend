@@ -23,8 +23,6 @@ export default function Page() {
       const data = await customerService.getAll(customerDataSchema.array());
       return data;
     },
-    staleTime: 5 * 60 * 1000,
-    refetchOnWindowFocus: true,
   });
 
   const deleteMutation = useMutation({

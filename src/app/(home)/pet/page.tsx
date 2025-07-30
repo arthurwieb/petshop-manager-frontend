@@ -1,4 +1,3 @@
-// app/pets/page.tsx
 "use client";
 
 import { petColumns } from "@/columns/petColumns";
@@ -25,8 +24,6 @@ export default function Page() {
       const data = await petService.getAll(petSchemaData.array());
       return data;
     },
-    staleTime: 5 * 60 * 1000,
-    refetchOnWindowFocus: true,
   });
 
   const deleteMutation = useMutation({
