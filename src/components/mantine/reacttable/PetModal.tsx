@@ -7,9 +7,18 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { notifications } from "@mantine/notifications";
 import { CustomerService } from "@/services/CustomerService";
 import { sessionStore } from "@/store/session-store";
-import { petSchema, PetFormData, PetData } from "@/types/Pet";
+import { petSchema, PetData, PetFormData } from "@/types/Pet";
 import { PetService } from "@/services/PetService";
 import { useEffect } from "react";
+import { z } from "zod";
+
+// Create a new schema for the form with customer_id as a string
+const petFormSchema = petSchema.extend({
+  customer_id: z.string().min(1, "Customer is required"),
+});
+
+// Create a new type for the form data
+type PetFormValues = z.infer<typeof petFormSchema>;
 
 interface PetModalProps {
   opened: boolean;
@@ -22,17 +31,17 @@ export function PetModal({ opened, onClose, onSuccess, petToEdit }: PetModalProp
   const user = sessionStore((state) => state.user);
   const queryClient = useQueryClient();
 
-  const form = useForm<PetFormData>({
+  const form = useForm<PetFormValues>({
     initialValues: {
       name: '',
       species: '',
       breed: '',
       age: undefined,
       company_id: user?.company_id as number,
-      customer_id: 1,
+      customer_id: '',
       notes: ''
     },
-    validate: zodResolver(petSchema),
+    validate: zodResolver(petFormSchema),
     validateInputOnChange: true,
   });
 
@@ -43,8 +52,9 @@ export function PetModal({ opened, onClose, onSuccess, petToEdit }: PetModalProp
         name: petToEdit.name,
         species: petToEdit.species || "",
         breed: petToEdit.breed || "",
-        age: petToEdit.age || undefined,
+        age: petToEdit.age || 0,
         company_id: petToEdit.company_id,
+        customer_id: String(petToEdit.customer_id),
         notes: petToEdit.notes || ""
       });
     } else {
@@ -107,15 +117,26 @@ export function PetModal({ opened, onClose, onSuccess, petToEdit }: PetModalProp
 
   const isSubmitting = createMutation.isPending || updateMutation.isPending;
 
-  const handleSubmit = (values: PetFormData) => {
+  const handleSubmit = (values: PetFormValues) => {
+    const customerExists = customerOptions.some(option => option.value === values.customer_id);
+
+    if (petToEdit && !customerExists) {
+      values.customer_id = String(petToEdit.customer_id);
+    }
+    
+    const submissionValues = {
+      ...values,
+      customer_id: Number(values.customer_id),
+    };
+
     if (petToEdit) {
       const dataToUpdate: PetData = {
         ...petToEdit,
-        ...values,
+        ...submissionValues,
       };
       updateMutation.mutate(dataToUpdate);
     } else {
-      createMutation.mutate(values);
+      createMutation.mutate(submissionValues);
     }
   };
 

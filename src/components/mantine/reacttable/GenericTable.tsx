@@ -35,6 +35,8 @@ export function GenericTable<T extends MRT_RowData & { id: number }>({
     enableRowSelection: true,
     enableMultiRowSelection: false,
     enableSelectAll: false,
+    enableColumnResizing: true,
+    columnResizeMode: 'onChange',
     mantineTableBodyRowProps: ({ row }) => ({
       onClick: row.getToggleSelectedHandler(),
       sx: { cursor: 'pointer' },

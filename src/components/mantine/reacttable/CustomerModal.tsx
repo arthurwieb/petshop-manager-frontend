@@ -54,11 +54,7 @@ export function CustomerModal({ opened, onClose, onSuccess, customerToEdit }: Cu
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["customers"] });
       queryClient.invalidateQueries({ queryKey: ["customers-list"] });
-      notifications.show({
-        title: "Sucesso!",
-        message: "Cliente cadastrado com sucesso",
-        color: "green",
-      });
+      
       onClose();
       onSuccess(false);
     },
@@ -77,11 +73,6 @@ export function CustomerModal({ opened, onClose, onSuccess, customerToEdit }: Cu
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["customers"] });
       queryClient.invalidateQueries({ queryKey: ["customers-list"] });
-      notifications.show({
-        title: "Sucesso!",
-        message: "Cliente atualizado com sucesso",
-        color: "green",
-      });
       onClose();
       onSuccess(true); 
     },

@@ -1,30 +1,37 @@
 "use client";
 
-import { petColumns } from "@/columns/petColumns";
+import { getPetColumns } from "@/columns/petColumns";
 import { PetService } from "@/services/PetService";
 import { petSchemaData, PetData } from "@/types/Pet"; 
 import { GenericTable } from "@/components/mantine/reacttable/GenericTable"; 
 import { PetModal } from "@/components/mantine/reacttable/PetModal";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { notifications } from '@mantine/notifications';
 import '@mantine/notifications/styles.css';
 import { modals } from '@mantine/modals'; 
+import { CustomerService } from "@/services/CustomerService";
+import { customerDataSchema } from "@/types/Customer";
 
 export default function Page() {
   const petService = new PetService();
+  const customerService = new CustomerService();
   const queryClient = useQueryClient();
 
   const [addEditModalOpen, setAddEditModalOpen] = useState(false);
   const [petToEdit, setPetToEdit] = useState<PetData | null>(null);
 
-  const { data: pets, isLoading } = useQuery<PetData[]>({
+  const { data: pets, isLoading: isLoadingPets } = useQuery<PetData[]>({
     queryKey: ["pets"],
-    queryFn: async () => {
-      const data = await petService.getAll(petSchemaData.array());
-      return data;
-    },
+    queryFn: async () => petService.getAll(petSchemaData.array()),
   });
+
+  const { data: customers, isLoading: isLoadingCustomers } = useQuery({
+    queryKey: ["customers"],
+    queryFn: async () => customerService.getAll(customerDataSchema.array()),
+  });
+
+  const columns = useMemo(() => getPetColumns(customers ?? []), [customers]);
 
   const deleteMutation = useMutation({
     mutationFn: (id: number) => petService.delete(id),
@@ -68,11 +75,6 @@ export default function Page() {
       ),
       labels: { confirm: 'Deletar', cancel: 'Cancelar' },
       confirmProps: { color: 'red' },
-      onCancel: () => notifications.show({
-        title: 'Cancelado',
-        message: 'Exclusão de pet cancelada.',
-        color: 'gray',
-      }),
       onConfirm: () => deleteMutation.mutate(petToDelete.id),
     });
   };
@@ -87,9 +89,9 @@ export default function Page() {
     <>
       <GenericTable<PetData>
         title="Pets"
-        columns={petColumns}
+        columns={columns}
         data={pets ?? []} 
-        isLoading={isLoading} 
+        isLoading={isLoadingPets || isLoadingCustomers} 
         onAddClick={handleAddClick}
         onEditClick={handleEditClick}
         onDeleteSelected={handleDeletePet} 

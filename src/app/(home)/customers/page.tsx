@@ -37,9 +37,17 @@ export default function Page() {
     },
     onError: (error: any) => {
       console.error("Erro ao deletar cliente:", error);
+      
+      const errorMessage = error.response?.data?.message || error.message || 'Erro desconhecido';
+      
+      let message = `Falha ao deletar cliente: ${errorMessage}`;
+      if (error.response?.status === 409) {
+        message = "Este cliente possui pets cadastrados e não pode ser excluído.";
+      }
+    
       notifications.show({
         title: 'Erro',
-        message: `Falha ao deletar cliente: ${error.response?.data?.message || error.message || 'Erro desconhecido'}`,
+        message,
         color: 'red',
       });
     },
@@ -68,11 +76,6 @@ export default function Page() {
       ),
       labels: { confirm: 'Deletar', cancel: 'Cancelar' },
       confirmProps: { color: 'red' }, 
-      onCancel: () => notifications.show({
-        title: 'Cancelado',
-        message: 'Exclusão de cliente cancelada.',
-        color: 'gray',
-      }),
       onConfirm: () => deleteMutation.mutate(customerToDelete.id), 
     });
   };
